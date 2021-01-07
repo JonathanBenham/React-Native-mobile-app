@@ -1,0 +1,102 @@
+import 'react-native-gesture-handler';
+import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Homepage from './Home';
+import { Platform } from 'react-native';
+import { useFonts } from 'expo-font';
+import { AppLoading } from 'expo-app-loading';
+import Header from './Header';
+import Footer from './Footer';
+import { navigationRef } from './RootNavigation';
+import NewsDetail from './NewsDetail';
+import AboutTrav from  './About';
+import Quotepage from  './Quote';
+import Catalogpage from  './Catalog';
+import CatalogDetail from  './CatalogDetail';
+import Loginpage from './Login';
+
+
+const Stack  =  createStackNavigator();
+
+export default function App() {
+  let [fontsLoaded] = useFonts({
+    'OpenSans' : require('./assets/fonts/OpenSans-Regular.ttf'),
+  });
+  if(!fontsLoaded){
+    return null;
+    //ERROR
+    //return <AppLoading />
+  }
+  else {
+    return (
+      <NavigationContainer
+        style={{ paddingTop: Platform.OS ==='android' ? StatusBar.currentHeight : 0}}
+        ref= { navigationRef }
+      >
+        <Stack.Navigator
+        initialRouteName="Travaux"
+        headerMode="screen"
+        >
+          <Stack.Screen
+            name="Travaux"
+            component={Homepage}
+            options={{
+              header: () => <Header headerDisplay="Travaux" />
+            }}
+          />
+          <Stack.Screen
+            name="NewsDetail"
+            component={NewsDetail}
+            options={{
+              header: () => <Header headerDisplay="News" />
+            }}
+          />
+
+          <Stack.Screen
+            name="About"
+            component={AboutTrav}
+            options={{
+              header: () => <Header headerDisplay="About Travaux" />
+            }}
+          />
+
+          <Stack.Screen
+            name="Quote"
+            component={Quotepage}
+            options={{
+              header: () => <Header headerDisplay="Get a quote" />
+            }}
+          />
+
+          <Stack.Screen
+            name="Catalog"
+            component={Catalogpage}
+            options={{
+              header: () => <Header headerDisplay="Travaux Robotics" />
+            }}
+          />
+
+          <Stack.Screen
+            name="CatalogDetail"
+            component={CatalogDetail}
+            options={{
+                header: () => <Header headerDisplay="Produsct Information" />
+            }}
+          />
+
+          <Stack.Screen
+            name="Login"
+            component={Loginpage}
+            options={{
+                header: () => <Header headerDisplay="Login page" />
+            }}
+          />
+
+        </Stack.Navigator>
+        <Footer/>
+      </NavigationContainer>
+    );
+  }
+}
